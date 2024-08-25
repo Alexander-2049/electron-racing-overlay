@@ -30,7 +30,7 @@ const createWindow = (): void => {
     ? path.join(__dirname, "../../", "assets", "irsdk-wss.exe") // Adjust this path if necessary
     : path.join(process.resourcesPath, "irsdk-wss.exe");
   console.log(__dirname);
-  const serverProcess = spawn(exePath, ['-p', '4004']);
+  const serverProcess = spawn(exePath, ["-p", "4004"]);
 
   // // Optionally, you can handle output or errors from the .exe file
   serverProcess.stdout.on("data", (data) => {
