@@ -1,9 +1,13 @@
-import useTelemetryData from "./wssConnection/telemetryHook";
+import { useTelemetry } from "./hooks/useTelemetry";
 
 const Telemetry = () => {
-  const { telemetry } = useTelemetryData();
+  const { telemetry, connected } = useTelemetry();
 
-  return <div><pre>{JSON.stringify(telemetry, null, 4)}</pre></div>;
+  return (
+    <div>
+      <pre>{JSON.stringify({ connected, telemetry }, null, 4)}</pre>
+    </div>
+  );
 };
 
 export default Telemetry;
