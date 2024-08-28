@@ -83,7 +83,7 @@ class iRacingAPI {
     if (this.ws && this.ws.readyState === WebSocket.OPEN) {
       this.ws.send(JSON.stringify(data));
     } else {
-      console.error("WebSocket is not open. Cannot send data.");
+      console.error("WebSocket is not open. Cannot send data:", data);
     }
   }
 
