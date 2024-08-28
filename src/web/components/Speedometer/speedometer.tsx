@@ -1,19 +1,6 @@
 import { useEffect, useState } from "react";
 import "./speedometer.css";
-
-export interface SpeedometerProps {
-  Speed: number;
-  Gear: number;
-  Engine: EngineProps;
-}
-
-export interface EngineProps {
-  RPM: number;
-  PlayerCarSLFirstRPM: number;
-  PlayerCarSLShiftRPM: number;
-  PlayerCarSLLastRPM: number;
-  PlayerCarSLBlinkRPM: number;
-}
+import { useTelemetry } from "../../hooks/useTelemetry";
 
 enum BrickColor {
   whiteTransparent,
@@ -22,62 +9,69 @@ enum BrickColor {
   redBlink,
 }
 
-const Speedometer = (props: SpeedometerProps) => {
-  const AMOUNT_OF_BRICKS = 77;
+const AMOUNT_OF_BRICKS = 77; // Move constants outside
+
+const Speedometer = () => {
+  const telemetryData = useTelemetry();
+
   const [bricks, setBricks] = useState<BrickColor[]>(
     initialBricks(AMOUNT_OF_BRICKS)
   );
 
   useEffect(() => {
+    if (!telemetryData.connected || !telemetryData.telemetry) {
+      return;
+    }
+    const { telemetry } = telemetryData;
+
     const bricksToPaint = Math.floor(
-      (props.Engine.RPM * AMOUNT_OF_BRICKS) / props.Engine.PlayerCarSLShiftRPM
+      (telemetry.RPM * AMOUNT_OF_BRICKS) / telemetry.PlayerCarSLShiftRPM
     );
 
     const paintColor =
-      props.Engine.RPM >= props.Engine.PlayerCarSLBlinkRPM
+      telemetry.RPM >= telemetry.PlayerCarSLBlinkRPM
         ? BrickColor.redBlink
-        : (props.Engine.RPM > props.Engine.PlayerCarSLLastRPM
+        : telemetry.RPM > telemetry.PlayerCarSLLastRPM
         ? BrickColor.red
-        : BrickColor.white);
+        : BrickColor.white;
 
-    const updatedBricks = [...bricks];
+    setBricks((prevBricks) => {
+      const updatedBricks = [...prevBricks];
 
-    for (let i = 0; i < AMOUNT_OF_BRICKS; i++) {
-      if (paintColor === BrickColor.redBlink) {
-        updatedBricks[i] = BrickColor.redBlink;
-      } else if (i <= bricksToPaint) {
-        updatedBricks[i] = paintColor;
-      } else {
-        updatedBricks[i] = BrickColor.whiteTransparent;
+      for (let i = 0; i < AMOUNT_OF_BRICKS; i++) {
+        if (paintColor === BrickColor.redBlink) {
+          updatedBricks[i] = BrickColor.redBlink;
+        } else if (i <= bricksToPaint) {
+          updatedBricks[i] = paintColor;
+        } else {
+          updatedBricks[i] = BrickColor.whiteTransparent;
+        }
       }
-    }
 
-    setBricks(updatedBricks);
-  }, [props.Engine]);
+      return updatedBricks;
+    });
+  }, [telemetryData.telemetry]);
 
   return (
     <div className="bricks-wrapper">
-      {bricks.map((brick) => {
-        if (brick === BrickColor.whiteTransparent) {
-          return <div className="brick white transparent"></div>;
-        } else if (brick === BrickColor.white) {
-          return <div className="brick white"></div>;
-        } else if (brick === BrickColor.red) {
-          return <div className="brick red"></div>;
-        } else if (brick === BrickColor.redBlink) {
-          return <div className="brick red blink"></div>;
-        }
+      {bricks.map((brick, index) => {
+        const brickClass =
+          brick === BrickColor.whiteTransparent
+            ? "brick white transparent"
+            : brick === BrickColor.white
+            ? "brick white"
+            : brick === BrickColor.red
+            ? "brick red"
+            : "brick red blink";
+
+        return <div key={index} className={brickClass}></div>;
       })}
     </div>
   );
 };
 
-function initialBricks(amountOfBricks: number) {
-  const initialBricks = [];
-  for (let i = 0; i < amountOfBricks; i++) {
-    initialBricks.push(BrickColor.whiteTransparent);
-  }
-  return initialBricks;
+function initialBricks(amountOfBricks: number): BrickColor[] {
+  return Array(amountOfBricks).fill(BrickColor.whiteTransparent);
 }
 
 export default Speedometer;
