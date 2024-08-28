@@ -63,7 +63,7 @@ class iRacingAPI {
           callback(parsedMessage.sessionInfo);
         });
       }
-      if (parsedMessage.connected) {
+      if (Object.keys(parsedMessage).includes("connected")) {
         this.connectedListeners.forEach((callback) => {
           callback(parsedMessage.connected);
         });
