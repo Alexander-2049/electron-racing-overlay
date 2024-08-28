@@ -1,0 +1,44 @@
+div.bricks-wrapper {
+  display: flex;
+  background-color: black;
+  width: max-content;
+  height: max-content;
+  padding: 6px;
+}
+
+div.brick {
+  height: 30px;
+  width: 5px;
+  margin: 0px 0.5px;
+}
+
+div.brick.white {
+  background-color: #fff;
+}
+
+div.brick.transparent {
+  opacity: 0.3;
+}
+
+div.brick.red {
+  background-color: rgb(192, 0, 0);
+}
+
+div.brick.red.blink {
+  animation: blink 0.4s infinite steps(1);
+}
+
+@keyframes blink {
+  0% {
+    background-color: rgb(192, 0, 0);
+  }
+  49.9% {
+    background-color: rgb(192, 0, 0);
+  }
+  50% {
+    background-color: #fff;
+  }
+  100% {
+    background-color: #fff;
+  }
+}

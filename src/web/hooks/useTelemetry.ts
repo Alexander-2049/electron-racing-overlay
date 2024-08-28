@@ -1,23 +1,46 @@
 import { useEffect, useState } from "react";
 import irsdkAPI from "../api/websocket";
+import checkRequestedFields from "../utils/checkRequestedFields";
 
 interface TelemetryData {
-  Throttle?: number | null;
-  Brake?: number | null;
-  RPM?: number | null;
-  Gear?: number | null;
+  Throttle: number;
+  Brake: number;
+  RPM: number;
+  Gear: number;
+  Speed: number;
+  PlayerCarSLFirstRPM: number;
+  PlayerCarSLShiftRPM: number;
+  PlayerCarSLLastRPM: number;
+  PlayerCarSLBlinkRPM: number;
 }
 
-const requestedFields = ["Throttle", "Brake", "RPM", "Gear"];
+const requestedFields = [
+  "Throttle",
+  "Brake",
+  "RPM",
+  "Gear",
+  "Speed",
+  "PlayerCarSLFirstRPM",
+  "PlayerCarSLShiftRPM",
+  "PlayerCarSLLastRPM",
+  "PlayerCarSLBlinkRPM",
+];
 
-export const useTelemetry = () => {
+export const useTelemetry = (): {
+  connected: boolean;
+  telemetry: TelemetryData | null;
+} => {
   const [telemetry, setTelemetry] = useState<TelemetryData | null>(null);
   const [connected, setConnected] = useState<boolean>(false);
 
   useEffect(() => {
     // Define the onmessage handler to process incoming WebSocket data
     const handleTelemetryMessage = (data: TelemetryData) => {
-      setTelemetry(data);
+      if (checkRequestedFields(data, requestedFields)) {
+        setTelemetry(data);
+      } else {
+        setTelemetry(null);
+      }
     };
 
     const handleConnectedMessage = (isConnected: boolean) => {
@@ -37,5 +60,5 @@ export const useTelemetry = () => {
     };
   }, []);
 
-  return { connected, telemetry };
+  return { telemetry, connected };
 };
