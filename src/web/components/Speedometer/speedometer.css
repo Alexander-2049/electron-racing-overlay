@@ -1,9 +1,15 @@
 div.bricks-wrapper {
   display: flex;
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.1);
   width: max-content;
   height: max-content;
   padding: 6px;
+
+  overflow: hidden;
+  
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-app-region: drag;
 }
 
 div.brick {
