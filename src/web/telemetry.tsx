@@ -20,17 +20,7 @@ const Telemetry = () => {
           4
         )}
       </pre>
-      <Speedometer
-        Speed={telemetry.Speed}
-        Gear={telemetry.Gear}
-        Engine={{
-          PlayerCarSLBlinkRPM: telemetry.PlayerCarSLBlinkRPM,
-          PlayerCarSLFirstRPM: telemetry.PlayerCarSLFirstRPM,
-          PlayerCarSLLastRPM: telemetry.PlayerCarSLLastRPM,
-          PlayerCarSLShiftRPM: telemetry.PlayerCarSLShiftRPM,
-          RPM: telemetry?.RPM,
-        }}
-      />
+      <Speedometer />
     </div>
   );
 };
