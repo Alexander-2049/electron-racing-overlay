@@ -28,13 +28,11 @@ class iRacingAPI {
   }
 
   private onOpen = () => {
-    console.log("WebSocket connection opened.");
     this.websocketConnected = true;
     this.sendRequestedFields();
   };
 
   private onClose = () => {
-    console.log("WebSocket connection closed.");
     this.websocketConnected = false;
     this.connectedListeners.forEach((callback) => {
       callback(false);
@@ -50,7 +48,6 @@ class iRacingAPI {
   };
 
   private onMessage = (event: MessageEvent) => {
-    console.log("WebSocket message received:", event.data);
     try {
       const parsedMessage = JSON.parse(event.data);
       if (parsedMessage.telemetry) {
@@ -63,7 +60,8 @@ class iRacingAPI {
           callback(parsedMessage.sessionInfo);
         });
       }
-      if (parsedMessage.connected) {
+      if (Object.keys(parsedMessage).includes("connected")) {
+        this.iracingConnected = true;
         this.connectedListeners.forEach((callback) => {
           callback(parsedMessage.connected);
         });
