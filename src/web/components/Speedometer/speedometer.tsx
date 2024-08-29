@@ -6,6 +6,8 @@ enum BrickColor {
   whiteTransparent,
   white,
   red,
+  yellow,
+  green,
   redBlink,
 }
 
@@ -29,11 +31,15 @@ const Speedometer = () => {
     );
 
     const paintColor =
-      telemetry.RPM >= telemetry.PlayerCarSLBlinkRPM
-        ? BrickColor.redBlink
-        : telemetry.RPM > telemetry.PlayerCarSLLastRPM
-        ? BrickColor.red
-        : BrickColor.white;
+    telemetry.RPM >= telemetry.PlayerCarSLBlinkRPM
+    ? BrickColor.redBlink
+    : telemetry.RPM > telemetry.PlayerCarSLLastRPM
+    ? BrickColor.red
+    : telemetry.RPM >= telemetryData.telemetry.PlayerCarSLShiftRPM
+    ? BrickColor.yellow
+    : telemetry.RPM >= telemetryData.telemetry.PlayerCarSLFirstRPM
+    ? BrickColor.green
+    : BrickColor.white;
 
     setBricks((prevBricks) => {
       const updatedBricks = [...prevBricks];
@@ -60,6 +66,10 @@ const Speedometer = () => {
             ? "brick white transparent"
             : brick === BrickColor.white
             ? "brick white"
+            : brick === BrickColor.yellow
+            ? "brick yellow"
+            : brick === BrickColor.green
+            ? "brick green"
             : brick === BrickColor.red
             ? "brick red"
             : "brick red blink";
