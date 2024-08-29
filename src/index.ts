@@ -9,6 +9,8 @@ import { createSpeedometer } from "./windows/speedometer";
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
+const windows: BrowserWindow[] = [];
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
   app.quit();
@@ -52,6 +54,14 @@ const createWindow = (): void => {
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
+
+  mainWindow.on("close", () => {
+    windows.forEach((win) => {
+      win.removeAllListeners("close"); // Remove the close prevention listener
+      win.close(); // Close the overlay window
+    });
+    app.quit();
+  });
 };
 
 // This method will be called when Electron has finished
@@ -59,7 +69,7 @@ const createWindow = (): void => {
 // Some APIs can only be used after this event occurs.
 app.on("ready", () => {
   createWindow();
-  createSpeedometer(MAIN_WINDOW_WEBPACK_ENTRY);
+  windows.push(createSpeedometer(MAIN_WINDOW_WEBPACK_ENTRY));
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
