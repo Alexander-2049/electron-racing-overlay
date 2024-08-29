@@ -11,7 +11,6 @@ const Main = () => {
 
   return (
     <h2>
-      Hello from React!
       <Telemetry />
     </h2>
   );
