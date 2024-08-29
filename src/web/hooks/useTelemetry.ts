@@ -30,21 +30,32 @@ export const useTelemetry = (): {
   connected: boolean;
   telemetry: TelemetryData | null;
 } => {
-  const [telemetry, setTelemetry] = useState<TelemetryData | null>(null);
-  const [connected, setConnected] = useState<boolean>(false);
+  const [data, setData] = useState<{
+    connected: boolean;
+    telemetry: TelemetryData | null;
+  }>({ connected: false, telemetry: null });
 
   useEffect(() => {
     // Define the onmessage handler to process incoming WebSocket data
-    const handleTelemetryMessage = (data: TelemetryData) => {
-      if (checkRequestedFields(data, requestedFields)) {
-        setTelemetry(data);
+    const handleTelemetryMessage = (updatedData: TelemetryData) => {
+      if (checkRequestedFields(updatedData, requestedFields)) {
+        setData({
+          connected: true,
+          telemetry: updatedData,
+        });
       } else {
-        setTelemetry(null);
+        setData({
+          connected: true,
+          telemetry: null,
+        });
       }
     };
 
     const handleConnectedMessage = (isConnected: boolean) => {
-      setConnected(isConnected);
+      setData({
+        connected: isConnected,
+        telemetry: data.telemetry,
+      });
     };
 
     // Set up the WebSocket event listener
@@ -60,5 +71,5 @@ export const useTelemetry = (): {
     };
   }, []);
 
-  return { telemetry, connected };
+  return data;
 };
