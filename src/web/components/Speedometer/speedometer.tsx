@@ -50,7 +50,7 @@ const Speedometer = () => {
 
       return updatedBricks;
     });
-  }, [telemetryData.telemetry]);
+  }, [telemetryData]);
 
   return (
     <div className="bricks-wrapper">
