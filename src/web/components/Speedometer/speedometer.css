@@ -31,20 +31,20 @@ div.brick.red {
 }
 
 div.brick.red.blink {
-  animation: blink 0.4s infinite steps(1);
+  animation: blink 0.35s infinite steps(1);
 }
 
 @keyframes blink {
   0% {
-    background-color: rgb(192, 0, 0);
+    background-color: #fff;
   }
   49.9% {
-    background-color: rgb(192, 0, 0);
+    background-color: #fff;
   }
   50% {
-    background-color: #fff;
+    background-color: rgb(192, 0, 0);
   }
   100% {
-    background-color: #fff;
+    background-color: rgb(192, 0, 0);
   }
 }
