@@ -41,19 +41,24 @@ export const useTelemetry = (): TelemetryData => {
     // Define the onmessage handler to process incoming WebSocket data
     const handleTelemetryMessage = (updatedTelemetryData: TelemetryValues) => {
       if (checkRequestedFields(updatedTelemetryData, requestedFields)) {
-        setData({
-          connected: true,
-          telemetry: updatedTelemetryData,
+        setData((prevData) => {
+          return {
+            connected: prevData.connected,
+            telemetry: updatedTelemetryData,
+          };
         });
       } else {
-        setData({
-          connected: true,
-          telemetry: null,
+        setData((prevData) => {
+          return {
+            connected: prevData.connected,
+            telemetry: null,
+          };
         });
       }
     };
 
     const handleConnectedMessage = (isConnected: boolean) => {
+      console.log({ isConnected });
       setData({
         connected: isConnected,
         telemetry: data.telemetry,
