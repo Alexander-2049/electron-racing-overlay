@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./speedometer.css";
-import { useTelemetry } from "../../hooks/useTelemetry";
+import { TelemetryData } from "../../hooks/useTelemetry";
 
 enum BrickColor {
   whiteTransparent,
@@ -11,11 +11,18 @@ enum BrickColor {
   redBlink,
 }
 
+const brickColorMap = new Map([
+  [BrickColor.whiteTransparent, "brick white transparent"],
+  [BrickColor.white, "brick white"],
+  [BrickColor.yellow, "brick yellow"],
+  [BrickColor.green, "brick green"],
+  [BrickColor.red, "brick red"],
+  [BrickColor.redBlink, "brick red blink"],
+]);
+
 const AMOUNT_OF_BRICKS = 77; // Move constants outside
 
-const Speedometer = () => {
-  const telemetryData = useTelemetry();
-
+const Speedometer = ({ telemetryData }: { telemetryData: TelemetryData }) => {
   const [bricks, setBricks] = useState<BrickColor[]>(
     initialBricks(AMOUNT_OF_BRICKS)
   );
@@ -31,15 +38,15 @@ const Speedometer = () => {
     );
 
     const paintColor =
-    telemetry.RPM >= telemetry.PlayerCarSLBlinkRPM
-    ? BrickColor.redBlink
-    : telemetry.RPM > telemetry.PlayerCarSLLastRPM
-    ? BrickColor.red
-    : telemetry.RPM >= telemetryData.telemetry.PlayerCarSLShiftRPM
-    ? BrickColor.yellow
-    : telemetry.RPM >= telemetryData.telemetry.PlayerCarSLFirstRPM
-    ? BrickColor.green
-    : BrickColor.white;
+      telemetry.RPM >= telemetry.PlayerCarSLBlinkRPM
+        ? BrickColor.redBlink
+        : telemetry.RPM > telemetry.PlayerCarSLLastRPM
+        ? BrickColor.red
+        : telemetry.RPM >= telemetryData.telemetry.PlayerCarSLShiftRPM
+        ? BrickColor.yellow
+        : telemetry.RPM >= telemetryData.telemetry.PlayerCarSLFirstRPM
+        ? BrickColor.green
+        : BrickColor.white;
 
     setBricks((prevBricks) => {
       const updatedBricks = [...prevBricks];
@@ -61,18 +68,7 @@ const Speedometer = () => {
   return (
     <div className="bricks-wrapper">
       {bricks.map((brick, index) => {
-        const brickClass =
-          brick === BrickColor.whiteTransparent
-            ? "brick white transparent"
-            : brick === BrickColor.white
-            ? "brick white"
-            : brick === BrickColor.yellow
-            ? "brick yellow"
-            : brick === BrickColor.green
-            ? "brick green"
-            : brick === BrickColor.red
-            ? "brick red"
-            : "brick red blink";
+        const brickClass = brickColorMap.get(brick);
 
         return <div key={index} className={brickClass}></div>;
       })}
