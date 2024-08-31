@@ -8,7 +8,6 @@ const Main = () => {
   const telemetryData = useTelemetry();
 
   if (hash.toLowerCase() === "#speedometer" && telemetryData.connected) {
-    console.log(telemetryData);
     return <Speedometer telemetryData={telemetryData} />;
   }
 
