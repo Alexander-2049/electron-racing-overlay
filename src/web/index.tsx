@@ -7,8 +7,12 @@ const Main = () => {
   const hash = useLocationHash();
   const telemetryData = useTelemetry();
 
-  if (hash.toLowerCase() === "#speedometer" && telemetryData.connected) {
-    return <Speedometer telemetryData={telemetryData} />;
+  if (hash.toLowerCase() === "#speedometer") {
+    if (telemetryData.connected) {
+      return <Speedometer telemetryData={telemetryData} />;
+    } else {
+      return null;
+    }
   }
 
   return (
