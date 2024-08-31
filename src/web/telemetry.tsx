@@ -20,7 +20,7 @@ const Telemetry = () => {
           4
         )}
       </pre>
-      <Speedometer />
+      <Speedometer telemetryData={telemetryData} />
     </div>
   );
 };
