@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import irsdkAPI from "../api/websocket";
 import checkRequestedFields from "../utils/checkRequestedFields";
 
-interface TelemetryData {
+export interface TelemetryData {
+  connected: boolean;
+  telemetry: TelemetryValues | null;
+}
+
+export interface TelemetryValues {
   Throttle: number;
   Brake: number;
   RPM: number;
@@ -26,22 +31,19 @@ const requestedFields = [
   "PlayerCarSLBlinkRPM",
 ];
 
-export const useTelemetry = (): {
-  connected: boolean;
-  telemetry: TelemetryData | null;
-} => {
+export const useTelemetry = (): TelemetryData => {
   const [data, setData] = useState<{
     connected: boolean;
-    telemetry: TelemetryData | null;
+    telemetry: TelemetryValues | null;
   }>({ connected: false, telemetry: null });
 
   useEffect(() => {
     // Define the onmessage handler to process incoming WebSocket data
-    const handleTelemetryMessage = (updatedData: TelemetryData) => {
-      if (checkRequestedFields(updatedData, requestedFields)) {
+    const handleTelemetryMessage = (updatedTelemetryData: TelemetryValues) => {
+      if (checkRequestedFields(updatedTelemetryData, requestedFields)) {
         setData({
           connected: true,
-          telemetry: updatedData,
+          telemetry: updatedTelemetryData,
         });
       } else {
         setData({
