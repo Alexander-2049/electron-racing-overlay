@@ -58,7 +58,6 @@ export const useTelemetry = (): TelemetryData => {
     };
 
     const handleConnectedMessage = (isConnected: boolean) => {
-      console.log({ isConnected });
       setData({
         connected: isConnected,
         telemetry: data.telemetry,
