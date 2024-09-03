@@ -14,7 +14,7 @@ import { rendererConfig } from "./webpack.renderer.config";
 const config: ForgeConfig = {
   packagerConfig: {
     asar: true,
-    extraResource: ["./assets/irsdk-wss.exe"],
+    extraResource: ["./assets/irsdk-ipc.exe"],
   },
   rebuildConfig: {},
   makers: [
