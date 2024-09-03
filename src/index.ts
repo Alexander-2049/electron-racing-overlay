@@ -9,8 +9,8 @@ import { createSpeedometer } from "./windows/speedometer";
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
-interface iRacingMessage {
-  type: string;
+export interface iRacingMessage {
+  type: "Connected" | "Telemetry" | "SessionInfo";
   data: unknown;
   timestamp: string;
 }
@@ -29,6 +29,7 @@ const createWindow = (): void => {
     width: 800,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+      nodeIntegration: true,
     },
   });
 
@@ -40,8 +41,8 @@ const createWindow = (): void => {
 
   irsdkIPC.on("message", (message) => {
     const typedMessage = message as iRacingMessage;
-    console.log(typedMessage.type);
-    console.log(typedMessage.data);
+
+    mainWindow.webContents.send("iracing-reply", typedMessage);
   });
 
   irsdkIPC.on("spawn", () => {
