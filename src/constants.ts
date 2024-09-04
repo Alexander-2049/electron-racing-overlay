@@ -7,4 +7,4 @@ export const RESOURCES_PATH = IS_DEV
   ? path.join(__dirname, "../../", "assets")
   : path.join(process.resourcesPath);
 
-export const MODS_PATH = path.join(app.getPath("userData"), "mods");
+export const MODS_PATH = path.join(app.getPath("userData"), "Mods");
