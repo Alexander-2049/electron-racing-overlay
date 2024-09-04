@@ -1,26 +1,39 @@
 import { useEffect, useState } from "react";
-import { iRacingMessage } from "../index";
-// import Speedometer from "./components/Speedometer/speedometer";
+import {
+  ConnectedMessage,
+  iRacingMessage,
+  SessionInfoMessage,
+  TelemetryMessage,
+} from "../index";
 // import useLocationHash from "./hooks/useLocationHash";
-// import { useTelemetry } from "./hooks/useTelemetry";
-// import Telemetry from "./telemetry";
 
 const Main = () => {
   // const hash = useLocationHash();
-  // const telemetryData = useTelemetry();
-  const [isConnected, setIsConnected] = useState<boolean>(false);
-  const [telemetry, setTelemetry] = useState<null | unknown>(null);
-  const [sessionInfo, setSessionInfo] = useState<null | unknown>(null);
+  const [connected, setConnected] = useState<ConnectedMessage>({
+    type: "Connected",
+    timestamp: new Date().toDateString(),
+    data: false,
+  });
+  const [telemetry, setTelemetry] = useState<TelemetryMessage>({
+    type: "Telemetry",
+    timestamp: new Date().toDateString(),
+    data: null,
+  });
+  const [sessionInfo, setSessionInfo] = useState<SessionInfoMessage>({
+    type: "SessionInfo",
+    timestamp: new Date().toDateString(),
+    data: null,
+  });
 
   useEffect(() => {
     // Listen for messages from the main process
     window.iracingAPI.onMessage((message: iRacingMessage) => {
-      if (message.type === "Connected" && typeof message.data === "boolean") {
-        setIsConnected(message.data);
+      if (message.type === "Connected") {
+        setConnected(message);
       } else if (message.type === "Telemetry") {
-        setTelemetry(message.data);
+        setTelemetry(message);
       } else if (message.type === "SessionInfo") {
-        setSessionInfo(message.data);
+        setSessionInfo(message);
       }
     });
 
@@ -46,7 +59,7 @@ const Main = () => {
       <pre>
         {JSON.stringify(
           {
-            connected: isConnected,
+            connected: connected.data,
             telemetry,
             sessionInfo,
           },
