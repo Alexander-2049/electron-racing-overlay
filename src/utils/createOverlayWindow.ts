@@ -1,15 +1,14 @@
 import { BrowserWindow } from "electron";
+import { preloadWebpackEntry } from "..";
 
-interface WindowProps {
-  width?: number;
-  height?: number;
-}
-
-export const createOverlayWindow = (url: string, props?: WindowProps) => {
+export const createOverlayWindow = (
+  url: string,
+  options?: Electron.BrowserWindowConstructorOptions
+) => {
   // Create the browser window.
   const overlayWindow = new BrowserWindow({
-    height: props?.height || 43,
-    width: props?.width || 474,
+    height: 43,
+    width: 474,
     frame: false,
     transparent: true,
     alwaysOnTop: true,
@@ -19,8 +18,10 @@ export const createOverlayWindow = (url: string, props?: WindowProps) => {
     skipTaskbar: true,
     resizable: false,
     webPreferences: {
+      preload: preloadWebpackEntry,
       nodeIntegration: true,
     },
+    ...options,
   });
   // and load the index.html of the app.
   overlayWindow.loadURL(url);
