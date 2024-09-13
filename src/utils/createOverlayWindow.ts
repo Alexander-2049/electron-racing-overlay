@@ -1,5 +1,5 @@
 import { BrowserWindow } from "electron";
-import { preloadWebpackEntry } from "..";
+import { preloadWebpackEntry } from "../main";
 
 export const createOverlayWindow = (
   url: string,

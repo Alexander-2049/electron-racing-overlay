@@ -4,7 +4,7 @@ import {
   iRacingMessage,
   SessionInfoMessage,
   TelemetryMessage,
-} from "../index";
+} from "../../main/index";
 // import useLocationHash from "./hooks/useLocationHash";
 
 const Main = () => {
