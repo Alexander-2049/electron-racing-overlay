@@ -1,5 +1,6 @@
 import { BrowserWindow } from "electron";
-import { preloadWebpackEntry } from "../main";
+
+declare const OVERLAY_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
 export const createOverlayWindow = (
   url: string,
@@ -18,7 +19,7 @@ export const createOverlayWindow = (
     skipTaskbar: true,
     resizable: false,
     webPreferences: {
-      preload: preloadWebpackEntry,
+      preload: OVERLAY_WINDOW_PRELOAD_WEBPACK_ENTRY,
       nodeIntegration: true,
     },
     ...options,

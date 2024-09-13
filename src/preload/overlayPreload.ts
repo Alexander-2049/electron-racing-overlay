@@ -22,6 +22,6 @@ window.addEventListener("DOMContentLoaded", () => {
   dragDiv.style.backgroundColor = "rgba(255, 255, 255, 0.5)"; // Fully transparent
   dragDiv.style.zIndex = "9999";
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (dragDiv.style as any)['-webkit-app-region'] = 'drag';
+  (dragDiv.style as any)["-webkit-app-region"] = "drag";
   document.body.appendChild(dragDiv);
 });

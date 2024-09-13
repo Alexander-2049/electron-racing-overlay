@@ -12,8 +12,6 @@ import { iRacingMessage } from "../shared/types/iRacingMessage";
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
-export const preloadWebpackEntry = MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY;
-
 const windows: BrowserWindow[] = [];
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -84,7 +82,6 @@ app.on("ready", () => {
       height: 1080 / 4,
     })
   );
-  // windows.push(createSpeedometer(MAIN_WINDOW_WEBPACK_ENTRY));
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common

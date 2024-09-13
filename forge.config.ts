@@ -35,9 +35,15 @@ const config: ForgeConfig = {
             js: "./src/renderer/renderer.tsx",
             name: "main_window",
             preload: {
-              js: "./src/preload/preload.ts",
+              js: "./src/preload/mainPreload.ts",
             },
           },
+          {
+            name: "overlay_window",
+            preload: {
+              js: "./src/preload/overlayPreload.ts"
+            }
+          }
         ],
       },
     }),
