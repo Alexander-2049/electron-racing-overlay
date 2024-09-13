@@ -57,10 +57,10 @@ const createWindow = (): void => {
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
-  if (IS_DEV) {
-    // Open the DevTools.
-    mainWindow.webContents.openDevTools();
-  }
+  // if (IS_DEV) {
+  //   // Open the DevTools.
+  //   mainWindow.webContents.openDevTools();
+  // }
 
   mainWindow.on("close", () => {
     windows.forEach((win) => {
