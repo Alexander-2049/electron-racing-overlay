@@ -22,6 +22,13 @@ if (require("electron-squirrel-startup")) {
 createModsFolder();
 
 const createWindow = (): void => {
+  let connectedInterval: NodeJS.Timeout | null = null;
+  // Start the iRacing IPC process
+  const exePath = path.join(RESOURCES_PATH, "irsdk-ipc.exe");
+  const irsdkIPC = spawn(exePath, {
+    stdio: ["pipe", "pipe", "pipe", "ipc"], // Ensure IPC is enabled
+  });
+
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     height: 800,
@@ -32,12 +39,6 @@ const createWindow = (): void => {
     },
   });
 
-  // Start the iRacing IPC process
-  const exePath = path.join(RESOURCES_PATH, "irsdk-ipc.exe");
-  const irsdkIPC = spawn(exePath, {
-    stdio: ["pipe", "pipe", "pipe", "ipc"], // Ensure IPC is enabled
-  });
-
   irsdkIPC.on("message", (message) => {
     const typedMessage = message as iRacingMessage;
 
@@ -45,13 +46,14 @@ const createWindow = (): void => {
   });
 
   irsdkIPC.on("spawn", () => {
-    setInterval(() => {
+    connectedInterval = setInterval(() => {
       irsdkIPC.send("connected");
     }, 1000);
   });
 
   irsdkIPC.on("close", (code) => {
     console.log(`Child process exited with code ${code}`);
+    if(connectedInterval !== null) clearInterval(connectedInterval);
   });
 
   // and load the index.html of the app.
@@ -67,6 +69,12 @@ const createWindow = (): void => {
       win.removeAllListeners("close"); // Remove the close prevention listener
       win.close(); // Close the overlay window
     });
+
+    if(connectedInterval !== null) clearInterval(connectedInterval);
+    if (irsdkIPC) {
+      irsdkIPC.removeAllListeners();
+      irsdkIPC.kill(); // Ensuring child process is terminated
+    }
     app.quit();
   });
 };
