@@ -1,4 +1,4 @@
-import { MODS_PATH } from "../main/constants";
+import { MODS_PATH } from "../constants";
 import fs from "fs";
 
 export const createModsFolder = () => {
