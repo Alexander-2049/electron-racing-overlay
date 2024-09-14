@@ -1,0 +1,8 @@
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.app-content {
+  flex-grow: 1;
+}

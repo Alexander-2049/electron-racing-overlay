@@ -1,0 +1,12 @@
+.title-bar {
+  -webkit-app-region: drag;
+  width: 100%;
+  height: 24px;
+  background-color: black;
+  display: flex;
+  justify-content: space-between;
+}
+
+.title-bar * {
+  -webkit-app-region: no-drag;
+}

@@ -10,3 +10,8 @@ contextBridge.exposeInMainWorld("iracingAPI", {
   onMessage: (callback: (data: unknown) => void) =>
     ipcRenderer.on("iracing-reply", (_, data) => callback(data)),
 });
+
+contextBridge.exposeInMainWorld("titleBar", {
+  sendMessage: (message: string) =>
+    ipcRenderer.send("title-bar-message", message),
+});

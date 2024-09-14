@@ -5,6 +5,8 @@ import {
   SessionInfoMessage,
   TelemetryMessage,
 } from "../../shared/types/iRacingMessage";
+import TitleBar from "./components/TitleBar";
+import "./Main.css";
 // import useLocationHash from "./hooks/useLocationHash";
 
 const Main = () => {
@@ -55,19 +57,22 @@ const Main = () => {
   // }
 
   return (
-    <h2>
-      <pre>
-        {JSON.stringify(
-          {
-            connected: connected.data,
-            telemetry,
-            sessionInfo,
-          },
-          null,
-          4
-        )}
-      </pre>
-    </h2>
+    <div className="app-wrapper">
+      <TitleBar />
+      <div className="app-content">
+        <pre>
+          {JSON.stringify(
+            {
+              connected: connected.data,
+              telemetry,
+              sessionInfo,
+            },
+            null,
+            4
+          )}
+        </pre>
+      </div>
+    </div>
   );
 };
 
