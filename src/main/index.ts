@@ -42,7 +42,9 @@ const createWindow = (): void => {
   irsdkIPC.on("message", (message) => {
     const typedMessage = message as iRacingMessage;
 
-    mainWindow.webContents.send("iracing-reply", typedMessage);
+    windows.forEach((win) => {
+      win.webContents.send("iracing-reply", typedMessage);
+    });
   });
 
   irsdkIPC.on("spawn", () => {
@@ -53,7 +55,7 @@ const createWindow = (): void => {
 
   irsdkIPC.on("close", (code) => {
     console.log(`Child process exited with code ${code}`);
-    if(connectedInterval !== null) clearInterval(connectedInterval);
+    if (connectedInterval !== null) clearInterval(connectedInterval);
   });
 
   // and load the index.html of the app.
@@ -70,7 +72,7 @@ const createWindow = (): void => {
       win.close(); // Close the overlay window
     });
 
-    if(connectedInterval !== null) clearInterval(connectedInterval);
+    if (connectedInterval !== null) clearInterval(connectedInterval);
     if (irsdkIPC) {
       irsdkIPC.removeAllListeners();
       irsdkIPC.kill(); // Ensuring child process is terminated
