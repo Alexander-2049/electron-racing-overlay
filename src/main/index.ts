@@ -1,7 +1,7 @@
 import { app, BrowserWindow } from "electron";
 import { spawn } from "child_process";
 import path from "path";
-import { IS_DEV, MODS_PATH, RESOURCES_PATH } from "./constants";
+import { MODS_PATH, RESOURCES_PATH } from "./constants";
 // import { createSpeedometer } from "./windows/speedometer";
 import { createModsFolder } from "./utils/modsFolder";
 import { createOverlayWindow } from "./utils/createOverlayWindow";
