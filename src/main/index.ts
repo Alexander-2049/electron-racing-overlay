@@ -19,7 +19,7 @@ if (require("electron-squirrel-startup")) {
 
 createModsFolder();
 
-const createWindow = (): void => {
+const createWindow = (): BrowserWindow => {
   let connectedInterval: NodeJS.Timeout | null = null;
   // Start the iRacing IPC process
   const exePath = path.join(RESOURCES_PATH, "irsdk-ipc.exe");
@@ -87,13 +87,15 @@ const createWindow = (): void => {
       mainWindow.minimize();
     }
   });
+
+  return mainWindow;
 };
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on("ready", () => {
-  createWindow();
+  windows.push(createWindow());
   // windows.push(
   //   createOverlayWindow(path.join(MODS_PATH, "test", "index.html"), {
   //     width: 1920 / 4,
