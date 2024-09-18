@@ -6,6 +6,7 @@ import {
   TelemetryMessage,
 } from "../../shared/types/iRacingMessage";
 import Layout from "./components/layout";
+import TelemetryPreview from "./components/telemetry-preview";
 // import useLocationHash from "./hooks/useLocationHash";
 
 const Main = () => {
@@ -58,6 +59,17 @@ const Main = () => {
   return (
     <Layout>
       <h1>Hello!</h1>
+      {connected && telemetry.data !== null ? (
+        <TelemetryPreview
+          connected={true}
+          brake={telemetry.data.Brake}
+          rpm={telemetry.data.RPM}
+          speed={telemetry.data.Speed}
+          throttle={telemetry.data.Throttle}
+        />
+      ) : (
+        <TelemetryPreview connected={false} />
+      )}
       <pre>
         {JSON.stringify(
           {
