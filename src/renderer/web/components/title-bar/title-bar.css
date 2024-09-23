@@ -21,9 +21,9 @@
   transition: all 0.1s ease-in-out;
 }
 
-.title-bar-button:hover {
+/* .title-bar-button:hover {
   cursor: pointer;
-}
+} */
 
 .title-bar-close-btn {
   width: 50px;
@@ -35,6 +35,9 @@
 .title-bar-close-btn:hover {
   background-color: rgb(196, 0, 0);
 }
+.title-bar-close-btn:active {
+  background-color: rgb(172, 1, 1);
+}
 
 .title-bar-minimize-btn {
   width: 50px;
@@ -45,4 +48,7 @@
 
 .title-bar-minimize-btn:hover {
   background-color: rgba(255, 255, 255, 0.2);
+}
+.title-bar-minimize-btn:active {
+  background-color: rgba(255, 255, 255, 0.17);
 }
