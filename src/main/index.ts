@@ -80,7 +80,6 @@ const createWindow = (): BrowserWindow => {
   });
 
   ipcMain.on("title-bar-message", (_, data) => {
-    console.log(data);
     if (data === "close") {
       mainWindow.close();
     } else if (data === "minimize") {
