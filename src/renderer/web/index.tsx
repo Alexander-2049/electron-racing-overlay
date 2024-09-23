@@ -7,6 +7,7 @@ import {
 } from "../../shared/types/iRacingMessage";
 import Layout from "./components/layout";
 import TelemetryPreview from "./components/telemetry-preview";
+import Button from "./components/ui/button";
 // import useLocationHash from "./hooks/useLocationHash";
 
 const Main = () => {
@@ -59,6 +60,7 @@ const Main = () => {
   return (
     <Layout>
       <h1>Hello!</h1>
+      <Button>Mods</Button>
       {connected && telemetry.data !== null ? (
         <TelemetryPreview
           connected={true}
