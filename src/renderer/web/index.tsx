@@ -62,9 +62,21 @@ const Main = () => {
   return (
     <Layout>
       <h1>Hello!</h1>
-      <Button onClick={() => {
-        window.MainWindowAPI.sendMessage("switch-to-iracing");
-      }}>Connect to iRacing client</Button>
+      <Button
+        onClick={() => {
+          window.MainWindowAPI.sendMessage("switch-to-iracing");
+        }}
+      >
+        Connect to iRacing client
+      </Button>
+      {/* TODO: Remove/Replace "disconnect-from-iracing" */}
+      <Button
+        onClick={() => {
+          window.MainWindowAPI.sendMessage("disconnect-from-iracing");
+        }}
+      >
+        Disconnect from iRacing client
+      </Button>
       <Button>Mods</Button>
       {connected && telemetry.data !== null ? (
         <TelemetryPreview

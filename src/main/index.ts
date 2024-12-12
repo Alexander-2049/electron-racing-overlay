@@ -8,6 +8,7 @@ declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
 enum SelectedGame {
+  "none",
   "iRacing",
 }
 
@@ -93,6 +94,11 @@ const createWindow = (): BrowserWindow => {
     if (data === "switch-to-iracing") {
       irsdkipc.open();
       selectedGame = SelectedGame.iRacing;
+    }
+    // TODO: Remove/Replace "disconnect-from-iracing"
+    if (data === "disconnect-from-iracing") {
+      irsdkipc.kill();
+      selectedGame = SelectedGame.none;
     }
   });
 
