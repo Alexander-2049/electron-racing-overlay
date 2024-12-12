@@ -30,13 +30,15 @@ const Main = () => {
 
   useEffect(() => {
     // Listen for messages from the main process
-    window.iracingAPI.onMessage((message: iRacingMessage) => {
+    window.iRacingAPI.onMessage((message: iRacingMessage) => {
       if (message.type === "Connected") {
         setConnected(message);
       } else if (message.type === "Telemetry") {
         setTelemetry(message);
       } else if (message.type === "SessionInfo") {
         setSessionInfo(message);
+      } else {
+        console.log("ANOTHER MESSAGE", message);
       }
     });
 
@@ -45,7 +47,7 @@ const Main = () => {
 
     // Cleanup the event listener on unmount
     return () => {
-      window.iracingAPI.onMessage(null); // Clear the listener
+      window.iRacingAPI.onMessage(null); // Clear the listener
     };
   }, []);
 
@@ -60,6 +62,9 @@ const Main = () => {
   return (
     <Layout>
       <h1>Hello!</h1>
+      <Button onClick={() => {
+        window.MainWindowAPI.sendMessage("switch-to-iracing");
+      }}>Connect to iRacing client</Button>
       <Button>Mods</Button>
       {connected && telemetry.data !== null ? (
         <TelemetryPreview
