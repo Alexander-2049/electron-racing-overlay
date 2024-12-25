@@ -8,8 +8,13 @@ interface TitleBarAction {
   sendMessage: (message: "close" | "minimize") => void;
 }
 
-interface Window {
-  MainWindowAPI: MainWindowAPI;
-  titleBar: TitleBarAction;
-  api: WebSocketListener;
+declare global {
+  interface Window {
+    MainWindowAPI: MainWindowAPI;
+    titleBar: TitleBarAction;
+    api: WebSocketListener;
+  }
 }
+
+export {};
+
