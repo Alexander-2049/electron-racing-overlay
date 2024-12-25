@@ -4,9 +4,9 @@ import {
   iRacingMessage,
   SessionInfoMessage,
   TelemetryMessage,
-} from "../../shared/types/iRacingMessage";
+} from "../../../shared/types/iRacingMessage";
 import path from "path";
-import { RESOURCES_PATH } from "../constants";
+import { RESOURCES_PATH } from "../../constants";
 import { ChildProcess, spawn } from "child_process";
 
 const exePath = path.join(RESOURCES_PATH, "irsdk-ipc.exe");
