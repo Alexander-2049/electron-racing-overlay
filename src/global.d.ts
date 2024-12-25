@@ -1,4 +1,4 @@
-import { WebSocketListener } from "./main/WebSocketListener/WebSocketListener";
+import { WebSocketListener } from "./main/inject-scripts/WebSocketListener";
 
 interface MainWindowAPI {
   sendMessage: (message: string) => void;
