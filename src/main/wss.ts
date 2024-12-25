@@ -7,7 +7,14 @@ wss.on("error", (error) => {
 });
 
 type DisplayUnits = "METRIC" | "IMPERIAL";
-type ObjectOptions = DataRPM | DataSpeed | DataControls;
+type ObjectOptions = DataRPM | DataSpeed | DataControls | DataCarLocation;
+
+interface WebSocketConnections {
+  controls: ConnectedListeners<DataControls>;
+  rpm: ConnectedListeners<DataRPM>;
+  speed: ConnectedListeners<DataSpeed>;
+  "car-location": ConnectedListeners<DataCarLocation>;
+}
 
 interface DataRPM {
   rpm: number;
@@ -28,6 +35,12 @@ interface DataControls {
   brake: number;
   clutch: number;
   steeringAnglePercents: number;
+}
+
+interface DataCarLocation {
+  isOnPitLane: boolean;
+  isOnTrack: boolean;
+  isInGarage: boolean;
 }
 
 class ConnectedListeners<T extends ObjectOptions> {
@@ -58,16 +71,11 @@ class ConnectedListeners<T extends ObjectOptions> {
   }
 }
 
-interface WebSocketConnections {
-  controls: ConnectedListeners<DataControls>;
-  rpm: ConnectedListeners<DataRPM>;
-  speed: ConnectedListeners<DataSpeed>;
-}
-
 export const connections: WebSocketConnections = {
   controls: new ConnectedListeners(),
   rpm: new ConnectedListeners(),
   speed: new ConnectedListeners(),
+  "car-location": new ConnectedListeners(),
 };
 
 const groupNames = new Set<keyof WebSocketConnections>(

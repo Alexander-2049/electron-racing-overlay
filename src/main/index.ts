@@ -82,6 +82,12 @@ const createWindow = (): BrowserWindow => {
       ),
     });
 
+    connections["car-location"].send({
+      isInGarage: telemetry.data.IsInGarage,
+      isOnPitLane: telemetry.data.OnPitRoad,
+      isOnTrack: telemetry.data.IsOnTrack,
+    });
+
     windows.forEach((win) => {
       win.webContents.send("iracing-data", telemetry);
     });
