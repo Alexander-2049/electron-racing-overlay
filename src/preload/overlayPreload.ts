@@ -2,14 +2,7 @@
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 
 // Preload (Isolated World)
-import { contextBridge, ipcRenderer } from "electron";
-
-contextBridge.exposeInMainWorld("iRacingAPI", {
-  sendMessage: (message: string) =>
-    ipcRenderer.send("iracing-message", message),
-  onMessage: (callback: (data: unknown) => void) =>
-    ipcRenderer.on("iracing-data", (_, data) => callback(data)),
-});
+// import { contextBridge, ipcRenderer } from "electron";
 
 // TODO: Create an element that will hover overlay with window drag
 window.addEventListener("DOMContentLoaded", () => {

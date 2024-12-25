@@ -4,13 +4,6 @@
 // Preload (Isolated World)
 import { contextBridge, ipcRenderer } from "electron";
 
-contextBridge.exposeInMainWorld("iRacingAPI", {
-  sendMessage: (message: string) =>
-    ipcRenderer.send("iracing-message", message),
-  onMessage: (callback: (data: unknown) => void) =>
-    ipcRenderer.on("iracing-data", (_, data) => callback(data)),
-});
-
 contextBridge.exposeInMainWorld("MainWindowAPI", {
   sendMessage: (message: string) =>
     ipcRenderer.send("main-message", message),
