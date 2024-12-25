@@ -5,8 +5,7 @@
 import { contextBridge, ipcRenderer } from "electron";
 
 contextBridge.exposeInMainWorld("MainWindowAPI", {
-  sendMessage: (message: string) =>
-    ipcRenderer.send("main-message", message),
+  sendMessage: (message: string) => ipcRenderer.send("main-message", message),
   onMessage: (callback: (data: unknown) => void) =>
     ipcRenderer.on("main-data", (_, data) => callback(data)),
 });

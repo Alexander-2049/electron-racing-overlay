@@ -1,5 +1,10 @@
+import { WEBSOCKET_SERVER_PORT } from "../shared/constants";
 import WebSocket from "ws";
-const wss = new WebSocket.Server({ port: 8080 });
+const wss = new WebSocket.Server({ port: WEBSOCKET_SERVER_PORT });
+
+wss.on("error", (error) => {
+  console.error(error.message);
+});
 
 type DisplayUnits = "METRIC" | "IMPERIAL";
 type ObjectOptions = DataRPM | DataSpeed | DataControls;
@@ -33,7 +38,8 @@ class ConnectedListeners<T extends ObjectOptions> {
     this.listeners.add(ws);
 
     // Even if Game Client is closed our listener will receive a last state
-    if (this.lastMessageStringified !== null) ws.send(this.lastMessageStringified);
+    if (this.lastMessageStringified !== null)
+      ws.send(this.lastMessageStringified);
   }
 
   public delete(ws: WebSocket) {
@@ -42,8 +48,7 @@ class ConnectedListeners<T extends ObjectOptions> {
 
   public send(message: T) {
     const messageStringified = JSON.stringify(message);
-    if(this.lastMessageStringified === messageStringified)
-      return;
+    if (this.lastMessageStringified === messageStringified) return;
 
     this.lastMessageStringified = messageStringified;
 
