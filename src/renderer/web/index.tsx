@@ -1,16 +1,24 @@
+import { useEffect, useState } from "react";
 import Layout from "./components/layout";
 import Button from "./components/ui/button";
+import { GameAPI } from "./utils/GameAPI";
+import { WEBSOCKET_SERVER_PORT } from "../../shared/constants";
 // import useLocationHash from "./hooks/useLocationHash";
 
 const Main = () => {
+  const [api] = useState(new GameAPI(WEBSOCKET_SERVER_PORT));
+  const [controls, setControls] = useState(null);
 
-  // if (hash.toLowerCase() === "#speedometer") {
-  //   if (telemetryData.connected) {
-  //     return <Speedometer telemetryData={telemetryData} />;
-  //   } else {
-  //     return null;
-  //   }
-  // }
+  useEffect(() => {
+    const callback = (data: unknown) => {
+      setControls(data);
+    };
+
+    api.addEventListener("controls", callback);
+    return () => {
+      api.removeEventListener("controls", callback);
+    };
+  }, []);
 
   return (
     <Layout>
@@ -31,6 +39,7 @@ const Main = () => {
         Disconnect from iRacing client
       </Button>
       <Button>Mods</Button>
+      <pre>{JSON.stringify(controls, undefined, " ")}</pre>
     </Layout>
   );
 };
