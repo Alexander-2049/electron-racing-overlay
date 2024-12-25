@@ -27,7 +27,7 @@ interface DataControls {
   throttle: number;
   brake: number;
   clutch: number;
-  steeringAngle: number;
+  steeringAnglePercents: number;
 }
 
 class ConnectedListeners<T extends ObjectOptions> {
