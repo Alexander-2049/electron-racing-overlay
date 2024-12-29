@@ -1,10 +1,15 @@
 .app-wrapper {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-areas: 
+    "title title"
+    "selectGame content";
+  grid-template-columns: 48px 1fr; /* Adjust the first column width as needed */
+  grid-template-rows: 30px 1fr;
   height: 100vh;
 }
 
 .app-content {
   flex-grow: 1;
   overflow: auto;
+  grid-area: content;
 }
